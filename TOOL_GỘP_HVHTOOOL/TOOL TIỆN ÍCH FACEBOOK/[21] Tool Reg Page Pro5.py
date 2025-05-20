@@ -1,3 +1,4 @@
+#TOOL BY HVHTOOÔOL
 luc = "\033[1;32m"
 trang = "\033[1;37m"
 do = "\033[1;31m"
@@ -5,17 +6,32 @@ vang = "\033[0;93m"
 hong = "\033[1;35m"
 xduong = "\033[1;34m"
 xnhac = "\033[1;36m"
-# Đánh Dấu Bản Quyền
-ndp_tool = trang + "" + do + "[" + trang + "=.=" + do + "] " + trang + "=> "
-ndp = trang + "" + do + "[" + trang + "=.=" + do + "] " + trang + "=> "
+den = "\033[1;90m"
+luc = "\033[1;32m"
+trang = "\033[1;37m"
+red = "\033[1;31m"
+vang = "\033[1;33m"
+tim = "\033[1;35m"
+lamd = "\033[1;34m"
+lam = "\033[1;36m"
+purple = "\033[35m"
+hong = "\033[1;95m"
+xam = "\033[1;37;90m"
+cam = "\033[1;38;2;255;165;0m"
+xanhngoc = "\033[1;38;2;0;255;255m"
+nau = "\033[1;38;2;139;69;19m"
+vangnhat = "\033[1;38;2;255;255;224m"
+hongdam = "\033[1;38;2;199;21;133m"
+xanhlacay = "\033[1;38;2;34;139;34m"
+xanhbienda = "\033[1;38;2;70;130;180m"
+
+ndp_tool = trang + "" + do + "[" + trang + "<+>" + do + "] " + trang + "=> "
+ndp = trang + "" + do + "[" + trang + "<+>" + do + "] " + trang + "=> "
 # Config
-__ZALO__ = '0777374145'
-__ADMIN__ = 'An Orin'
-__FACEBOOK__ = 'anorintool'
-__VERSION__ = '1.0'
+
 dem = 0
 # import lib
-import requests, os, sys
+import requests, os, sys,re
 from time import sleep
 from datetime import datetime
 try:
@@ -32,21 +48,15 @@ def echo(a):
    print()
 def banner():
     banner = f"""
-
-  \033[1;35m  █████╗  ███╗   ██╗     ██████╗ ██████╗ ██╗███╗   ██╗     
-    \033[1;37m██╔══██╗████╗  ██║    ██╔═══██╗██╔══██╗██║████╗  ██║     
-    \033[1;35m███████║██╔██╗ ██║    ██║   ██║██████╔╝██║██╔██╗ ██║    
-    \033[1;37m██╔══██║██║╚██╗██║    ██║   ██║██╔══██╗██║██║╚██╗██║     
-    \033[1;35m██║  ██║██║ ╚████║    ╚██████╔╝██║  ██║██║██║ ╚████║
-    \033[1;37m╚═╝  ╚═╝╚═╝  ╚═══╝     ╚═════╝ ╚═╝  ╚═╝╚═╝╚═╝  ╚═══╝
-
-
-\033[1;37m- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-\033[1;31m[\033[1;37m=.=\033[1;31m] \033[1;37m=> \033[1;31mCopyright By: \033[1;35m{__ADMIN__}
-\033[1;31m[\033[1;37m=.=\033[1;31m] \033[1;37m=> \033[1;32mZalo: \033[1;34m{__ZALO__}
-\033[1;31m[\033[1;37m=.=\033[1;31m] \033[1;37m=> \033[1;36mFacebook: \033[1;37mFb.com/{__FACEBOOK__}
-\033[1;31m[\033[1;37m=.=\033[1;31m] \033[1;37m=> \033[0;93mTool Auto Reg Page Pro5 {__VERSION__}
-\033[1;37m- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -"""
+                        
+{tim}                ██╗░░██╗██╗░░░██╗██╗░░██╗
+{xanhbienda}                ██║░░██║██║░░░██║██║░░██║
+{tim}                ███████║╚██╗░██╔╝███████║
+{cam}                ██╔══██║░╚████╔╝░██╔══██║
+{xanhlacay}                ██║░░██║░░╚██╔╝░░██║░░██║   REGPRO5 VIP!!!!!!!!!!!!!!!!!!!!!!
+{xanhngoc}                ╚═╝░░╚═╝░░░╚═╝░░░╚═╝░░╚═╝    REGPRO5 VIP!!!!!!!!!!!!!!!!!!!!!!         
+                        
+\033[1;37m-----------------------------------------------------------------"""
     echo(banner)
 def clear():
     os.system("cls" if os.name == "nt" else "clear")
@@ -55,15 +65,16 @@ def thanh():
 def ndp_delay(o):
     while(o>1):
         o=o-1
-        print(f'{trang}[\033[1;31mA\033[1;33mN \033[1;36mO\033[1;35mR\033[1;34mI\033[1;32mN\033[1;37m[\033[1;36m|\033[1;37m]\033[1;37m[.....]\033[1;37m[{o}]','     ',end='\r');sleep(1/6)
-        print(f'{trang}[\033[1;35mA\033[1;32mN \033[1;34mO\033[1;35mR\033[1;36mI\033[1;33mN\033[1;37m[\033[1;31m/\033[1;37m]\033[1;37m[\033[1;32m>\033[1;37m....]\033[1;37m[{o}]','     ',end='\r');sleep(1/6)
-        print(f'{trang}[\033[1;31mA\033[1;33mN \033[1;36mO\033[1;35mR\033[1;34mI\033[1;32mN\033[1;37m[\033[1;32m-\033[1;37m]\033[1;37m[\033[1;32m>\033[1;31m>\033[1;37m...]\033[1;37m[{o}]','     ',end='\r');sleep(1/6)
-        print(f'{trang}[\033[1;35mA\033[1;32mN \033[1;34mO\033[1;35mR\033[1;36mI\033[1;33mN\033[1;37m[\033[1;33m+\033[1;37m]\033[1;37m[\033[1;32m>\033[1;31m>\033[1;36m>\033[1;37m..]\033[1;37m[{o}]','     ',end='\r');sleep(1/6)
-        print(f'{trang}[\033[1;31mA\033[1;33mN \033[1;36mO\033[1;35mR\033[1;34mI\033[1;32mN\033[1;37m[\033[1;34m\{trang}]\033[1;37m[\033[1;32m>\033[1;31m>\033[1;36m>\033[1;33m>\033[1;37m.]\033[1;37m[{o}]','     ',end='\r');sleep(1/6)
-        print(f'{trang}[\033[1;35mA\033[1;32mN \033[1;34mO\033[1;35mR\033[1;36mI\033[1;33mN\033[1;37m[\033[1;35m|\033[1;37m]\033[1;37m[\033[1;32m>\033[1;31m>\033[1;36m>\033[1;33m>\033[1;35m>\033[1;37m]\033[1;37m[{o}]','     ',end='\r');sleep(1/6)
+        print(f'{trang}[\033[1;31mH\033[1;33mV \033[1;36mH\033[1;37m[\033[1;36m|\033[1;37m]\033[1;37m[.....]\033[1;37m[{o}]','     ',end='\r');sleep(1/6)
+        print(f'{trang}[\033[1;35mH\033[1;32mV \033[1;34mH\033[1;37m[\033[1;31m/\033[1;37m]\033[1;37m[\033[1;32m>\033[1;37m....]\033[1;37m[{o}]','     ',end='\r');sleep(1/6)
+        print(f'{trang}[\033[1;31mH\033[1;33mV \033[1;36mH\033[1;37m[\033[1;32m-\033[1;37m]\033[1;37m[\033[1;32m>\033[1;31m>\033[1;37m...]\033[1;37m[{o}]','     ',end='\r');sleep(1/6)
+        print(f'{trang}[\033[1;35mH\033[1;32mV \033[1;34mH\033[1;37m[\033[1;33m+\033[1;37m]\033[1;37m[\033[1;32m>\033[1;31m>\033[1;36m>\033[1;37m..]\033[1;37m[{o}]','     ',end='\r');sleep(1/6)
+        print(f'{trang}[\033[1;31mH\033[1;33mV \033[1;36mH\033[1;37m[\033[1;34m\{trang}]\033[1;37m[\033[1;32m>\033[1;31m>\033[1;36m>\033[1;33m>\033[1;37m.]\033[1;37m[{o}]','     ',end='\r');sleep(1/6)
+        print(f'{trang}[\033[1;35mH\033[1;32mV \033[1;34mH\033[1;37m[\033[1;35m|\033[1;37m]\033[1;37m[\033[1;32m>\033[1;31m>\033[1;36m>\033[1;33m>\033[1;35m>\033[1;37m]\033[1;37m[{o}]','     ',end='\r');sleep(1/6)
 # =================[ START TOOL ]===========================
 clear()
 banner()
+access_token = input('Nhập Token:')
 cookie = input(ndp_tool+luc+'Vui Lòng Nhập Cookie Facebook'+trang+': '+vang)
 headers = {
         'authority': 'mbasic.facebook.com',
@@ -86,10 +97,36 @@ headers = {
 }
     
 try:
-    print(ndp_tool+trang+"Đang Check Live Cookie...", end="\r")
-    find_data = requests.get("https://mbasic.facebook.com/", headers=headers).text
-    fb_dtsg = find_data.split('<input type="hidden" name="fb_dtsg" value="')[1].split('"')[0]
-    jazoest = find_data.split('<input type="hidden" name="jazoest" value="')[1].split('"')[0]
+    url = 'https://www.facebook.com/'
+    response = requests.get(url, headers=headers, timeout=10, allow_redirects=True)
+    response.raise_for_status()  # Ném lỗi nếu mã trạng thái không phải 200
+    home = response.text
+    # Phần còn lại của mã (trích xuất fb_dtsg, jazoest, tên, v.v.)
+    # Extract fb_dtsg
+    fb_dtsg_match = None
+    fb_dtsg_patterns = [
+        r'<input type="hidden" name="fb_dtsg" value="(.*?)"',
+        r'"name":"fb_dtsg","value":"(.*?)"',
+        r'"fb_dtsg":"(.*?)"',
+        r'fb_dtsg:"(.*?)"',
+        r'"async_get_token":"(.*?)"'
+    ]
+    for pattern in fb_dtsg_patterns:
+        fb_dtsg_match = re.search(pattern, home)
+        if fb_dtsg_match:
+            print(f"fb_dtsg found with pattern: {pattern}")
+            break
+    fb_dtsg = fb_dtsg_match.group(1) if fb_dtsg_match else None
+    if not fb_dtsg:
+        raise ValueError("Could not find fb_dtsg in the response")
+    # Extract jazoest
+    jazoest_match = re.search(r'<input type="hidden" name="jazoest" value="(.*?)"', home)
+    if not jazoest_match:
+        jazoest_match = re.search(r'"name":"jazoest","value":"(.*?)"', home)
+    jazoest = jazoest_match.group(1) if jazoest_match else None
+    if not jazoest:
+        raise ValueError("Could not find jazoest in the response")
+    # Extract name (ten)
     uid = cookie.split('c_user=')[1].split(';')[0]
 except:
     print(ndp+do+"Cookie Die Vui Lòng Kiểm Tra Lại!!!")
@@ -98,15 +135,36 @@ clear()
 banner()
 delay = int(input(ndp_tool+luc+'Vui Lòng Nhập Delay Reg Page'+trang+': '+vang))
 # GET INFO
-json_name = requests.get('https://keysiuvip.com/ndp_api/getthongtin.php?cookie='+cookie).json()
-if json_name['status'] == 'success':
-    id = json_name['id']
-    name_fb = json_name['name']
-    thanh()
-    print(luc+'NAME FB: '+vang+str(name_fb)+do+' | '+luc+'UID FB: '+vang+str(id)+'')
-    thanh()
-else:
-    exit(ndp_tool+do+'Get Thông Tin Thất Bại!!')
+result = {}
+try:
+    api_url = "https://graph.facebook.com/me"
+    headers = {
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36",
+        "Cookie": cookie  # Thêm cookie vào header của API
+    }
+    params = {
+        "fields": "id,name",
+        "access_token": access_token
+    }
+    api_response = requests.get(api_url, params=params, headers=headers)
+    api_response.raise_for_status()
+    api_data = api_response.json()
+
+    if "error" in api_data:
+        result["api_error"] = api_data["error"]["message"]
+    else:
+        id = api_data.get("id", "Không tìm thấy ID")
+        name_fb = api_data.get("name", "Không tìm thấy tên")
+        print(f"id: {id}")
+        print(f"name: {name_fb}")
+except requests.RequestException as e:
+    result["api_error"] = f"Lỗi khi gửi yêu cầu API: {str(e)}"
+except Exception as e:
+    result["api_error"] = f"Lỗi API: {str(e)}"
+
+# In lỗi nếu API thất bại
+
+
 
 while True: 
     name = requests.get('https://story-shack-cdn-v2.glitch.me/generators/vietnamese-name-generator/male?count=2').json()['data'][0]['name']
@@ -148,7 +206,7 @@ while True:
     if 'id' in response.text:
         dem=dem+1
         id = response.json()['data']['additional_profile_plus_create']['additional_profile']['id']
-        print(f''+do+'['+trang+'AN ORIN'+do+'] | '+do+'['+vang+str(dem)+do+'] | '+do+'['+trang+name+do+'] | '+do+'['+trang+id+do+']')
+        print(f''+do+'['+trang+'Bé Tập Code'+do+'] | '+do+'['+vang+str(dem)+do+'] | '+do+'['+trang+name+do+'] | '+do+'['+trang+id+do+']')
         ndp_delay(delay)
     else:
         exit(ndp_tool+do+'Clone Đã Bị Block Reg Page!!!')
