@@ -197,7 +197,7 @@ while True:
         '__spin_t': '1668582022',
         'fb_api_caller_class': 'RelayModern',
         'fb_api_req_friendly_name': 'AdditionalProfilePlusCreationMutation',
-        'variables': '{"input":{"bio":"test tool auto reg page pro5 by NguyenDucPhat","categories":["660696964377118"],"creation_source":"comet","name":"'+name+'","page_referrer":"launch_point","actor_id":"'+uid+'","client_mutation_id":"1"}}',
+        'variables': '{"input":{"bio":"test tool auto reg page pro5 by NguyenDucPhat","categories":["660696964377118"],"creation_source":"comet","name":"'+str(name)+'","page_referrer":"launch_point","actor_id":"'+str(uid)+'","client_mutation_id":"1"}}',
         'server_timestamps': 'true',
         'doc_id': '5903223909690825',
     }
@@ -206,7 +206,7 @@ while True:
     if 'id' in response.text:
         dem=dem+1
         id = response.json()['data']['additional_profile_plus_create']['additional_profile']['id']
-        print(f''+do+'['+trang+'Bé Tập Code'+do+'] | '+do+'['+vang+str(dem)+do+'] | '+do+'['+trang+name+do+'] | '+do+'['+trang+id+do+']')
+        print(f''+do+'['+trang+'Bé Tập Code'+do+'] | '+do+'['+vang+str(dem)+do+'] | '+do+'['+trang+str(name)+do+'] | '+do+'['+trang+id+do+']')
         ndp_delay(delay)
     else:
         exit(ndp_tool+do+'Clone Đã Bị Block Reg Page!!!')
