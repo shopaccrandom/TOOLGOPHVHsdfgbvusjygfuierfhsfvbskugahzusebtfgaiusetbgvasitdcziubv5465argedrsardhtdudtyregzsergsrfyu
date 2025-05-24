@@ -86,6 +86,7 @@ def INSTAGRAN(file_name, DELAY, choose):
                 response.raise_for_status()
                 getnameig = response.text
                 chuoiname = re.findall(r'"username":"(.*?)"', getnameig)
+                jazoest =re.findall(r'jazoest=(.*?)"',getnameig)
                 if chuoiname:
                     NAMEIG = chuoiname[0]
                 else:
@@ -145,7 +146,28 @@ def INSTAGRAN(file_name, DELAY, choose):
             'x-web-session-id': 'wy7l3p:3aqprq:sieysj',
             'cookie': cookie,
         }
-
+        headersigcomment = {
+            'accept': '*/*',
+            'accept-language': 'vi-VN,vi;q=0.9,fr-FR;q=0.8,fr;q=0.7,en-US;q=0.6,en;q=0.5',
+            'content-type': 'application/x-www-form-urlencoded',
+            'origin': 'https://www.instagram.com',
+            'priority': 'u=1, i',
+            'referer': 'https://www.instagram.com/by.maianh_order/p/DJ_Gf8MxIoQ/',
+            'sec-ch-prefers-color-scheme': 'light',
+            'sec-fetch-dest': 'empty',
+            'sec-fetch-mode': 'cors',
+            'sec-fetch-site': 'same-origin',
+            'user-agent': User_Agent,
+            'x-asbd-id': '359341',
+            'x-csrftoken': xcsrftoken,
+            'x-ig-app-id': '936619743392459',
+            'x-ig-www-claim': 'hmac.AR112mGyzPzTzPsiBGMvCn4ykuNiS_amD4aK1jWRQjuRsvDm',
+            'x-instagram-ajax': '1023119282',
+            'x-requested-with': 'XMLHttpRequest',
+            'x-web-session-id': 'owxwii:2566l1:95ulws',
+            'cookie': cookie,
+            #'cookie': 'mid=aASipwALAAEEEJcgYD6gTs0BkpUs; datr=p6IEaLuwNKQyqs8pTdOdwc3y; ig_did=DC5CA9AE-21CE-499C-9456-5835FEFBADA4; ps_l=1; ps_n=1; ig_nrcb=1; dpr=1; csrftoken=slUY1kpQ4p5S3Rgrhz1x4kDJnRJIAWD6; ds_user_id=62757491180; sessionid=62757491180%3AJ3XJMnKQti54f7%3A10%3AAYeSQYVoPIzW8Pw-kUONHnI4MA4Vfc1flenyPuC3ow; wd=390x844; rur="VLL\\05462757491180\\0541779519321:01f75cd0fc262ed61d96beda4cac5a83bd40e7a886579ef7e66e66e1762bf74b8c8434b6"',
+            }
         # Headers cho Golike API
         '''headersgl = {
             'authorization': 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC9nYXRld2F5LmdvbGlrZS5uZXRcL2FwaVwvbG9naW4iLCJpYXQiOjE3NDU2NjQ3ODksImV4cCI6MTc3NzIwMDc4OSwibmJmIjoxNzQ1NjY0Nzg5LCJqdGkiOiJWOTZObW5DV2VoeGJsYWIxIiwic3ViIjoyNDAwNzQzLCJwcnYiOiJiOTEyNzk5NzhmMTFhYTdiYzU2NzA0ODdmZmYwMWUyMjgyNTNmZTQ4In0.gQTG2WGxvavyNg0_YPSxESIDZNLeFN7pOQ267dK4xsU',
@@ -339,20 +361,87 @@ def INSTAGRAN(file_name, DELAY, choose):
                                     
                         
                     elif job_type == 'comment':
-                        json_data = {
-                            'ads_id': ads_id,
-                            'object_id': object_id,
-                            'account_id': ID,
-                            'type': job_type,
+                        comment_id=getjop['lock']['comment_id']
+                        instagram_account_id=getjop['lock']['instagram_account_id']
+                        instagram_users_advertising_id=getjop['lock']['instagram_users_advertising_id']
+                        messagecomment=getjop['lock']['message']
+                        idcomment= getjop['data']['description']
+                        link=getjop['data']['link']
+                        ID_COMMENT = idcomment.split('_')[0]
+                        #print(comment_id)
+                        #print(instagram_users_advertising_id)
+                        #print(instagram_account_id)
+                        #print(messagecomment)
+                        #print(idcomment)
+                        #print(ID_COMMENT)
+                        #print(link)
+
+                        data = {
+                            'comment_text': messagecomment,
+                            'jazoest': jazoest,
                         }
-                        checkskipjob = requests.post(
-                            'https://gateway.golike.net/api/advertising/publishers/instagram/skip-jobs',
-                            headers=headersgl,
-                            json=json_data,
-                            impersonate="chrome"
-                        ).json()
-                        if checkskipjob['status'] == 200:
-                            print(Fore.RED + str(checkskipjob['message']) + Fore.RESET)
+                        response = requests.post(f'https://www.instagram.com/api/v1/web/comments/{ID_COMMENT}/add/',headers=headersigcomment,data=data).text
+                        countdown(20)
+                        if '"status":"ok"' in response:
+                            json_data = {
+                                'instagram_users_advertising_id': instagram_users_advertising_id,
+                                'instagram_account_id': instagram_account_id,
+                                'async': True,
+                                'data': None,
+                                'comment_id': comment_id,
+                                'message': messagecomment,
+                            }
+                            response = requests.post(
+                                'https://gateway.golike.net/api/advertising/publishers/instagram/complete-jobs',
+                                headers=headersgl,
+                                json=json_data,impersonate="chrome").json()
+                            if response['success'] == True:
+                                dem += 1
+                                local_time = time.localtime()
+                                h, m, s = [f"{t:02d}" for t in (local_time.tm_hour, local_time.tm_min, local_time.tm_sec)]
+                                prices = response['data']['prices']
+                                tong += prices
+                                chuoi = (
+                                    f"\033[1;31m| \033[1;36m{dem}\033[1;31m\033[1;97m | "
+                                    f"\033[1;33m{h}:{m}:{s}\033[1;31m\033[1;97m  | "
+                                    f"\033[1;32msuccess\033[1;31m\033[1;97m | "
+                                    f"\033[1;31mcomment\033[1;31m\033[1;32m\033[1;97m | "
+                                    f"\033[1;31mlink\033[1;31m[{link}] \033[1;32m\033[1;97m "
+                                    f"\033[1;32mẨn ID\033[1;97m | \033[1;32m+{prices} \033[1;97m| "
+                                    f"\033[1;33m{tong} vnđ"
+                                )
+                                print(chuoi)
+                            else:
+                                print('Trang không tồn tại hoặc bài đăng chưa bật công khai comment')
+                                json_data = {
+                                    'ads_id': ads_id,
+                                    'object_id': object_id,
+                                    'account_id': ID,
+                                    'type': job_type,
+                                }
+                                checkskipjob = requests.post(
+                                    'https://gateway.golike.net/api/advertising/publishers/instagram/skip-jobs',
+                                    headers=headersgl,
+                                    json=json_data,
+                                    impersonate="chrome"
+                                ).json()
+                                if checkskipjob['status'] == 200:
+                                    print(Fore.RED + str(checkskipjob['message']) + Fore.RESET)
+                        else:
+                            json_data = {
+                                'ads_id': ads_id,
+                                'object_id': object_id,
+                                'account_id': ID,
+                                'type': job_type,
+                            }
+                            checkskipjob = requests.post(
+                                'https://gateway.golike.net/api/advertising/publishers/instagram/skip-jobs',
+                                headers=headersgl,
+                                json=json_data,
+                                impersonate="chrome"
+                            ).json()
+                            if checkskipjob['status'] == 200:
+                                print(Fore.RED + str(checkskipjob['message']) + Fore.RESET)
                 else:
                     print(Fore.RED + f"{getjop['message']} tại dòng {idx}." + Fore.RESET)
                     if 'Vui lòng bấm lại load job' in getjop['message']:
@@ -399,20 +488,41 @@ if __name__ == "__main__":
     print(Fore.GREEN + "2. Instagram (định dạng file : name|cookie)")
     choice = input(Fore.YELLOW + "Nhập lựa chọn (1 hoặc 2): " + Fore.RESET)
 
+    def validate_file(file_name):
+        """Validate if the file exists and is accessible."""
+        if not os.path.exists(file_name):
+            print(Fore.RED + f"File '{file_name}' không tồn tại. Vui lòng kiểm tra lại đường dẫn hoặc tên file." + Fore.RESET)
+            return False
+        if not os.access(file_name, os.R_OK):
+            print(Fore.RED + f"Không thể đọc file '{file_name}'. Vui lòng kiểm tra quyền truy cập." + Fore.RESET)
+            return False
+        return True
+
     if choice == '1':
-        DELAY = int(input(Fore.RED + '\033[1;97m[\033[1;91m✨\033[1;97m] \033[1;36m☄️  Nhập Delay : '))
-        choose = int(input(Fore.RED + '\033[1;97m[\033[1;91m✨\033[1;97m] \033[1;36m☄️  Nhập Số Lượng Job : '))
-        file_name = input(Fore.YELLOW + "Nhập tên file chứa các cookie: " + Fore.RESET)
-        banner()
-        INSTAGRAN(file_name, DELAY, choose)
+        while True:
+            file_name = input(Fore.YELLOW + "Nhập tên file chứa các cookie: " + Fore.RESET)
+            if validate_file(file_name):
+                try:
+                    DELAY = int(input(Fore.RED + '\033[1;97m[\033[1;91m✨\033[1;97m] \033[1;36m☄️  Nhập Delay : '))
+                    choose = int(input(Fore.RED + '\033[1;97m[\033[1;91m✨\033[1;97m] \033[1;36m☄️  Nhập Số Lượng Job : '))
+                    banner()
+                    INSTAGRAN(file_name, DELAY, choose)
+                    break
+                except ValueError:
+                    print(Fore.RED + "Vui lòng nhập số hợp lệ cho Delay và Số Lượng Job." + Fore.RESET)
+            else:
+                retry = input(Fore.YELLOW + "Bạn có muốn thử lại với tên file khác không? (y/n): " + Fore.RESET)
+                if retry.lower() != 'y':
+                    print(Fore.CYAN + "Kết thúc chương trình." + Fore.RESET)
+                    break
     elif choice == '2':
         while True:
             file_name = input(Fore.YELLOW + "Nhập tên file chứa các name|cookie: " + Fore.RESET)
-            if os.path.exists(file_name):
+            if validate_file(file_name):
                 with open(file_name, 'r', encoding='utf-8') as f:
                     lines = [line.strip() for line in f.readlines() if line.strip()]
-                if os.path.exists('cookiepass.txt'):
-                    with open('cookiepass.txt', 'r', encoding='utf-8') as f:
+                if os.path.exists(file_name):
+                    with open(file_name, 'r', encoding='utf-8') as f:
                         existing_entries = {line.strip().split('|')[1].strip() for line in f if line.strip() and '|' in line}
                 else:
                     existing_entries = set()
@@ -436,7 +546,7 @@ if __name__ == "__main__":
                         invalid_count += 1
 
                 if valid_entries:
-                    with open('cookiepass.txt', 'a', encoding='utf-8') as f:
+                    with open(file_name, 'a', encoding='utf-8') as f:
                         for entry in valid_entries:
                             f.write(entry + '\n')
                     print(Fore.GREEN + f"Đã thêm {len(valid_entries)} entry hợp lệ." + Fore.RESET)
@@ -448,15 +558,22 @@ if __name__ == "__main__":
                     print(Fore.RED + f"Có {invalid_count} entry không hợp lệ đã bị bỏ qua." + Fore.RESET)
                 break
             else:
-                print(Fore.RED + "File không tồn tại. Vui lòng nhập lại." + Fore.RESET)
+                retry = input(Fore.YELLOW + "Bạn có muốn thử lại với tên file khác không? (y/n): " + Fore.RESET)
+                if retry.lower() != 'y':
+                    print(Fore.CYAN + "Kết thúc chương trình." + Fore.RESET)
+                    break
 
-        run_jobs = input(Fore.YELLOW + "Bạn có muốn chạy xử lý job bây giờ không? (y/n): " + Fore.RESET)
-        if run_jobs.lower() == 'y':
-            DELAY = int(input(Fore.RED + '\033[1;97m[\033[1;91m✨\033[1;97m] \033[1;36m☄️  Nhập Delay : '))
-            choose = int(input(Fore.RED + '\033[1;97m[\033[1;91m✨\033[1;97m] \033[1;36m☄️  Nhập Số Lượng Job : '))
-            banner()
-            INSTAGRAN(file_name, DELAY, choose)
-        else:
-            print(Fore.CYAN + "Kết thúc chương trình." + Fore.RESET)
+        if validate_file(file_name):  # Double-check before running jobs
+            run_jobs = input(Fore.YELLOW + "Bạn có muốn chạy xử lý job bây giờ không? (y/n): " + Fore.RESET)
+            if run_jobs.lower() == 'y':
+                try:
+                    DELAY = int(input(Fore.RED + '\033[1;97m[\033[1;91m✨\033[1;97m] \033[1;36m☄️  Nhập Delay : '))
+                    choose = int(input(Fore.RED + '\033[1;97m[\033[1;91m✨\033[1;97m] \033[1;36m☄️  Nhập Số Lượng Job : '))
+                    banner()
+                    INSTAGRAN(file_name, DELAY, choose)
+                except ValueError:
+                    print(Fore.RED + "Vui lòng nhập số hợp lệ cho Delay và Số Lượng Job." + Fore.RESET)
+            else:
+                print(Fore.CYAN + "Kết thúc chương trình." + Fore.RESET)
     else:
         print(Fore.RED + "Lựa chọn không hợp lệ." + Fore.RESET)
